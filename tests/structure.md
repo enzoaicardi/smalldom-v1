@@ -5,14 +5,14 @@ $header = 3
 @meta [charset=UTF-8]
 @style 'css/styles.css'
 
-@import 'parts/header.sdom' as header
-@import 'parts/footer.sdom' as footer
+@import header from 'parts/header.sdom'
+@import footer from 'parts/footer.sdom'
 
 #header
 
 main{
 
-    button.btn [type=submit] "got it !"
+    button*5.btn [type=submit] "got it !"
 
     section {
         header {

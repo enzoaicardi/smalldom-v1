@@ -1,4 +1,2 @@
-@import header from '../exports.sdom'
-@export header {
-    me.div
-}
+@import head from '../exports.sdom'
+@export header {#head}

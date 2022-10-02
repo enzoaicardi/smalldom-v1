@@ -15,4 +15,4 @@ On transmet ensuite le tableau au Delimiter qui va transformer les items délimi
 
 ## 4 - Joiner
 
-Le Joiner va ensuite repérer les élements qui doivent fusionner (comme par exemple un déclarateur de classe "." et le nom de la classe "my-class") afin de les réduire à un seul item et de repérer les erreurs. Le Joiner vient après le Delimiter car on peut ne pas vouloir appliquer les règles du Joiner à certains items comme les déclarations d'attributs.
+Le Joiner va ensuite repérer les élements qui doivent fusionner (comme par exemple un déclarateur de classe "." et le nom de la classe "my-class") afin de les réduire à un seul item et de repérer les erreurs.
