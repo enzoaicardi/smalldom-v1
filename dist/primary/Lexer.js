@@ -17,8 +17,10 @@ export class Lexer extends WhileText{
     constructor(text, path){
 
         super(text)
+
         // on met a jour l'uuid du tableau, qui va se transmettre entre les Classes pour garder
         // le texte original pour les exceptions
+
         this.path = path || ''
         this.uuid = this.array.uuid = Global.data.push(this.text) - 1
         Global.path[this.uuid] = path
@@ -38,6 +40,8 @@ export class Lexer extends WhileText{
         const LETTER_NUMBER = /[\w\d]/;
 
         let item = new Item(this.uuid); item.trace.startFrom(this.trace)
+        let next = this.text[this.i+1]
+        let useNext = false
 
         if(LETTER.test(char)){
 
@@ -73,6 +77,32 @@ export class Lexer extends WhileText{
 
             if(char === '\n') {
                 item.type = 'break'
+            }
+
+            // conditions
+
+            else if(char === '=' && next === '='){
+                useNext = true
+                item.type = 'symbol'
+                item.name = 'equality'
+            }
+
+            else if(char === '!' && next === '='){
+                useNext = true
+                item.type = 'symbol'
+                item.name = 'difference'
+            }
+
+            else if(char === '>' && next === '='){
+                useNext = true
+                item.type = 'symbol'
+                item.name = 'superior'
+            }
+
+            else if(char === '<' && next === '='){
+                useNext = true
+                item.type = 'symbol'
+                item.name = 'inferior'
             }
 
             // symbols
@@ -153,8 +183,8 @@ export class Lexer extends WhileText{
                 item.status = 'double'
             }
 
-            else if(char === '/' && this.text[this.i+1] === '/') {
-                this.i++; item.value += char
+            else if(char === '/' && next === '/') {
+                useNext = true
                 item.type = 'border'
                 item.name = 'comment'
                 item.status = 'inline'
@@ -200,6 +230,11 @@ export class Lexer extends WhileText{
             }
 
             item.value += char
+
+            if(useNext) {
+                this.i++
+                item.value += next
+            }
 
         }
 

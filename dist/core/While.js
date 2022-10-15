@@ -12,6 +12,13 @@ export class While{
         this.trace = false
         this.text = ''
         this.colorise = false
+
+        this.undefined = {
+            type: 'undefined',
+            name: 'undefined',
+            status: false,
+            identifier: false
+        }
     }
 
     main(){}
@@ -50,18 +57,20 @@ export class While{
 
         }
 
-        return this.array[this.i] || this.array[this.i-1]
+        return this.array[this.i] || this.undefined
 
     }
 
-    whileBlank(){
-        this.i++
-        return this.while((i)=>{return i.type === 'blank'},()=>{})
-    }
+    next(item, code){
 
-    whileVoid(){
         this.i++
-        return this.while((i)=>{return i.type === 'blank' || i.type === 'break'},()=>{})
+        let value = this.array[this.i] || this.undefined
+
+        if(value.status === 'deep') { new this.constructor(value.childs).run() }
+        else if(item && value === this.undefined) new Exception(item, code || 'EMPTY');
+
+        return value
+
     }
 
 }

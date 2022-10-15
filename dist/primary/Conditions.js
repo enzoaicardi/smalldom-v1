@@ -1,7 +1,7 @@
-import { Collapser } from "./Collapser.js"
+import { Operations } from "./Operations.js"
 
 
-export class Conditions extends Collapser{
+export class Conditions extends Operations{
 
     constructor(items){
         super(items)

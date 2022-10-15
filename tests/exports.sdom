@@ -1,2 +1,0 @@
-$bis = 2
-@export head {$var+head}

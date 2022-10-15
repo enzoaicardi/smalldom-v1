@@ -15,7 +15,8 @@ export class Eval extends While{
 
     main(item){
 
-        if(item.type === 'eval'){
+        if(item.type === 'eval'
+        || (item.type === 'statement' && item.identifier === 'success')){
             
             this.array.splice(this.i, 1, ...item.childs)
 
@@ -29,7 +30,7 @@ export class Eval extends While{
 
             // il est necessaire de cloner l'Item sans quoi chaque référence
             // à la variable modifie la variable elle même
-            let el = new Item().clone(first)
+            let el = new Item(this.uuid).clone(first)
 
             if(first.type === 'number' && last.type === 'number'){
 
@@ -69,8 +70,23 @@ export class Eval extends While{
 
         else if(item.type === 'condition'){
             
-            // ... update this to add conditionnal logic ...
+            let el = new Item(this.uuid)
+            el.value = 0
+
             item.status = false
+
+            let first = item.childs[0]
+            let last = item.childs[1]
+
+            if(
+               (item.name === 'equality' && first.value === last.value)
+            || (item.name === 'difference' && first.value !== last.value)
+            || (item.name === 'inferior' && first.value <= last.value)
+            || (item.name === 'superior' && first.value >= last.value)
+            ) 
+            {el.value = 1}
+
+            this.array[this.i] = el
 
         }
 

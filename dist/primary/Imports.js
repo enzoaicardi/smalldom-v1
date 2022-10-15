@@ -7,15 +7,16 @@ import { Delimiters } from "./Delimiters.js";
 import { Joins } from "./Joins.js";
 import { Lexer } from "./Lexer.js";
 import { Item } from "../elements/Item.js";
-import { Collapser } from "./Collapser.js";
+import { Operations } from "./Operations.js";
+import { Conditions } from "./Conditions.js";
+import { Voids } from "./Voids.js";
+import { Statements } from "./Statements.js";
 
 /** GLOBAL
- * References permet d'ajouter des variables en leur assignant une valeur dans Global.variable
- * et de les réutiliser plus tard dans le code. Il regarde aussi les règles d'import et d'export 
- * afin de les stocker dans Global.import
+ * Imports permet d'importer des bouts de code depuis d'autres fichiers .sdom
  */
 
-export class References extends While{
+export class Imports extends While{
 
     constructor(items){
         super(items)
@@ -36,10 +37,10 @@ export class References extends While{
             if(item.name === 'export'){
 
                 let pos = this.i
-                let name = this.whileVoid()
+                let name = this.next()
                 if(name.type !== 'word') new Exception(item, 'NO_NAME')
 
-                let block = this.whileVoid()
+                let block = this.next()
                 if(block.type !== 'block') new Exception(item, 'EMPTY')
 
                 else{
@@ -65,12 +66,13 @@ export class References extends While{
             else if(item.name === 'import'){
 
                 let pos = this.i
-                let name = this.whileVoid()
+                let name = this.next()
+                
                 if(name.type !== 'word') new Exception(item, 'NO_NAME')
                 item.identifier = name.value
 
-                let keyword = this.whileVoid()
-                let string = this.whileVoid()
+                let keyword = this.next()
+                let string = this.next()
 
                 if((keyword.type !== 'word'
                 || keyword.status !== 'keyword')
@@ -99,43 +101,6 @@ export class References extends While{
 
         }
 
-        else if(item.type === 'variable'){
-
-            let pos = this.i
-            let is = this.whileVoid()
-
-            if(is.type === 'word' && is.name === 'is' && is.status === 'keyword'){
-
-                let value = this.whileVoid()
-                if(value === is) {new Exception(item, 'EMPTY'); return}
-
-                item.type = 'variable_declaration'
-                item.status = 'deep'
-                item.childs.uuid = this.uuid
-                item.childs.push(value)
-
-                this.array.splice(pos+1, this.i-pos)
-                this.i = pos-1
-
-            }
-
-            else{
-                
-                let value = Global.variable[item.name] || null
-                if(!value) new Exception(item, 'NOT_FOUND');
-
-                this.array[pos] = value
-                this.i = pos
-
-            }
-
-        }
-
-        else if(item.type === 'variable_declaration'){
-            Global.variable[item.name] = item.childs[0]
-            item.status = false
-        }
-
         else if(item.type === 'reference'){
 
             let value = Global.doExport(this.uuid, item.name) || this.imports(item.name) || new Exception(item, 'NOT_FOUND')
@@ -155,7 +120,7 @@ export class References extends While{
             new Exception(this.item, 'NOT_FOUND_FILE')
         }else{
             let res = xhr.responseText.replaceAll('\r\n', '\n')
-            return References.from(res, path)
+            return Imports.from(res, path)
         }
 
         new Exception(this.item, 'NOT_FOUND_FILE')
@@ -182,7 +147,7 @@ export class References extends While{
         // le passage par les différents constructeurs va mettre automatiquement à jour
         // les propriétés statiques de Global, et c'est ça qui nous intéresse
         let res = Global.construct(
-            [Borders, Delimiters, Joins, Collapser, References],
+            [Borders, Voids, Delimiters, Joins, Operations, Conditions, Statements, Imports],
             new Lexer(code, path).run().array
         )
 

@@ -40,7 +40,7 @@ export class Joins extends While{
     ItemBlankWord(item){
 
         let pos = this.i
-        let last = this.whileBlank()
+        let last = this.next()
 
         if(last.type === 'word'){
 

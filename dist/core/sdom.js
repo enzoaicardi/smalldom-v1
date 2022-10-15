@@ -4,44 +4,77 @@ import { Joins } from "../primary/Joins.js";
 import { Borders } from "../primary/Borders.js";
 import { Delimiters } from "../primary/Delimiters.js";
 import { Lexer } from "../primary/Lexer.js";
-import { References } from "../primary/References.js";
-import { Collapser } from "../primary/Collapser.js";
+import { Imports } from "../primary/Imports.js";
+import { Operations } from "../primary/Operations.js";
 import { Rules } from "../builder/Rules.js";
 import { Attributes } from "../builder/Attributes.js";
 import { Eval } from "../primary/Eval.js";
 import { Conditions } from "../primary/Conditions.js";
+import { Variables } from "../primary/Variables.js";
+import { Statements } from "../primary/Statements.js";
+import { Voids } from "../primary/Voids.js";
+
 Array.prototype.uuid = 0
 
-let code = `$bis=2$var .love*(5+(5*$bis+3))
+let code = `
+@aaa 'aaa' bbb
+$bis is 2 $var is .love+(5+(5*$bis+3))
 
 @import header from './exportbis/exportbis.sdom'
 #header
-$var`;
+$var@meta $var is `;
 
 code = `
-$var is [a=2] + ([b=3] + [c=4])$var
-@style './css'`
+@if (a == a) {
+    $var is bbb
+    bbb
+} 
+
+@else {
+
+    @if "" {
+        $var is fff
+    }
+
+    @else {
+        $var is ccc
+    }
+    
+}
+$var`
 
 console.log(
+
     new Rules(
     new Attributes(
 
     new Eval(
-    new References(
+    new Variables(
+    new Imports(
+
+    new Statements(
     new Conditions(
-    new Collapser(
+    new Operations(
+
     new Joins(
         new Delimiters(
+            new Voids(
             new Borders(
                 new Lexer(code).run().array
             ).run().array
+            ).run().array
         ).run().array
     ).run().array
-    ).run().array
+
     ).run().array
     ).run().array
     ).run().array
 
     ).run().array
     ).run().array
+    ).run().array
+
+    ).run().array
+    ).run().array
+    
 )

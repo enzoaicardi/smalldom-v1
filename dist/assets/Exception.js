@@ -154,11 +154,24 @@ export class Exception{
                 NO_NAME: 'You must specify a name for an @import declaration',
                 NOT_FOUND: (i)=>{return 'No export found with the name ' + i.identifier},
                 NOT_FOUND_FILE: 'File not found for that @import declaration',
+            },
+
+            if: {
+                EMPTY: 'You must declare a condition and an element after @if statement',
+            },
+            elseif: {
+                EMPTY: 'You must declare a condition and an element after @elseif statement',
+                MISSING: 'You must declare an @if statement before @elseif statement'
+            },
+            else: {
+                EMPTY: 'You must declare an element after @else statement',
+                MISSING: 'You must declare an @if or @elseif statement before @else statement'
             }
+
         },
 
         variable: {
-            EMPTY: 'Equal "=" symbol must be followed by a value in variable declaration',
+            EMPTY: 'Keyword "is" must be followed by a value in variable declaration',
             NOT_FOUND: (i)=>{return 'No variable found with the name ' + i.name},
         },
 

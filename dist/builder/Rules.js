@@ -18,10 +18,10 @@ export class Rules extends While{
         let el = new Item(this.uuid)
         el.type = item.name
 
-        let first = this.whileVoid()
+        let first = this.next()
         if(!this.ruleSet(el, first)) {new Exception(item, 'EMPTY'); return}
 
-        let second = this.whileVoid()
+        let second = this.next()
         if(first.type !== second.type) this.ruleSet(el, second)
 
         item.status = 'defined'
