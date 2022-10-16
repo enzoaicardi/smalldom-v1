@@ -1,1 +1,3 @@
 @import * from '../first.sdom'
+
+@export nameSecond wow

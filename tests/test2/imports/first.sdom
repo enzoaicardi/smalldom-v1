@@ -1,2 +1,4 @@
 
 @import * from './exemple/second.sdom'
+
+@export name &nameSecond
