@@ -1,5 +1,5 @@
 import { sdom } from "../../lib/sdom.js";
 
-let code = document.querySelector('p').textContent;
+let code = document.querySelector('pre').textContent;
         
 sdom.transpile(code)
