@@ -10,9 +10,21 @@
     
 <pre>
 
-html
-    body
-nav
+@preset 'html5'
+
+@head {
+    title "Titre de mon site" "Titre 2"
+    script [defer lang=fr]
+}
+
+section
+    article
+        h2 "Ceci est un article"
+    article
+        h2 "Ceci est un article aussi"
+
+img! [src="image_url"]
+
 
 </pre>
 
