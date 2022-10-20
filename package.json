@@ -1,6 +1,6 @@
 {
-  "name": "sdom",
-  "version": "1.0.0",
+  "name": "smalldom",
+  "version": "1.0.1",
   "description": "Build HTML files dynamicaly with .sdom extension and sdom transpiler !",
   "main": "lib/sdom.js",
   "type": "module",
