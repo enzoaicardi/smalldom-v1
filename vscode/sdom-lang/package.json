@@ -1,0 +1,111 @@
+{
+  "name": "sdom-lang",
+  "author": "Enzo Aicardi",
+  "displayName": "sdom-lang",
+  "description": "Semantic Hightlight for .sdom and .smalldom files",
+  "version": "0.0.1",
+  "icon": "icon.png",
+  "repository": {},
+  "engines": {
+    "vscode": "^1.72.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:sdom"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "sdom",
+        "aliases": [
+          "sdom",
+          "sdom"
+        ],
+        "extensions": [
+          ".sdom",
+          ".smalldom"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "icon.png",
+          "dark": "icon.png"
+        }
+      }
+    ],
+    "comment": [
+      {
+        "language": "sdom",
+        "scopeName": "source.sdom",
+        "path": "./syntaxes/sdom.tmLanguage.json"
+      }
+    ],
+    "semanticTokenScopes": [
+      {
+        "scopes": {
+          "id": [
+            "entity.name.function.sdom"
+          ],
+          "word": [
+            "entity.name.tag.sdom"
+          ],
+          "word.schema": [
+            "entity.name.function.sdom"
+          ],
+          "word.keyword": [
+            "keyword.control.at-rule.sdom"
+          ],
+          "rule": [
+            "keyword.control.at-rule.sdom"
+          ],
+          "boolean": [
+            "variable.other.constant.sdom"
+          ],
+          "reference": [
+            "keyword.operator.new.reference.sdom"
+          ],
+          "attribute_key": [
+            "entity.other.attribute-name.sdom"
+          ],
+          "attribute_value": [
+            "constant.character.escape.sdom"
+          ],
+          "choice": [
+            "keyword.control.at-rule.sdom"
+          ],
+          "comparator": [
+            "keyword.control.at-rule.sdom"
+          ],
+          "operator": [
+            "punctuation.sdom"
+          ],
+          "symbol.equal": [
+            "punctuation.separator.key-value.sdom"
+          ],
+          "symbol.exclamation": [
+            "punctuation.sdom"
+          ],
+          "symbol.question": [
+            "punctuation.sdom"
+          ]
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "build": "npx webpack --config webpack.config.lang.js",
+    "vsix": "vsce package --out ./vsix/",
+    "publish": "npm run build && npm run vsix"
+  },
+  "devDependencies": {
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "vsce": "^2.12.0"
+  },
+  "vsce": {
+  }
+}

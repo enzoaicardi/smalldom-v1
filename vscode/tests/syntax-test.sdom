@@ -1,0 +1,49 @@
+!doctype HTML!
+
+xml?
+
+@import dada from 'me'
+
+1 + 1
+2 - 2
+3 * 3
+4 / 4
+5 % 5
+6 || 7
+7 && 8
+8 << 9
+9 >> 10
+
+// commentaire
+/* commenta
+
+
+dede */
+
+aaa > aaa
+aaa, aaa
+
+@preset 'html5'
+
+@head {
+    title "Titre de mon site" "Titre 2"
+    script [defer lang=fr]
+}
+
+section#main-section.class
+    article
+        h2 "Ceci est un article"
+    article
+        h2 "Ceci est un article aussi"
+
+img! [src="image_url", data-tag=wawawa]
+
+@if 50 << 30 && {
+
+    $var = 30
+
+    &reference
+
+    @true @false
+
+}
