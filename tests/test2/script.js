@@ -2,4 +2,5 @@ import { sdom } from "../../lib/sdom.js";
 
 let code = document.querySelector('pre').textContent;
         
-sdom.transpile(code)
+let html = sdom.transpile(code)
+console.log(html)

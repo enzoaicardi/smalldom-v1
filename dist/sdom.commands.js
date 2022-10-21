@@ -91,7 +91,7 @@ yargs(hideBin(process.argv))
     
 // functions
 
-function sdomCompile(sourceURL, outputURL, argv){
+async function sdomCompile(sourceURL, outputURL, argv){
 
     if(argv.watch){
 
@@ -107,7 +107,7 @@ function sdomCompile(sourceURL, outputURL, argv){
         _compile()
     }
 
-    function _compile(){
+    async function _compile(){
 
         console.log('[source] <- fetch source code from', sourceURL);
 
@@ -116,7 +116,7 @@ function sdomCompile(sourceURL, outputURL, argv){
             'utf8'
         );
 
-        let outputCode = sdom.layout(argv.layout).transpile(sourceCode);
+        let outputCode = await sdom.layout(argv.layout).transpile(sourceCode);
 
         console.log('[output] <- create output at', outputURL);
 

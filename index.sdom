@@ -1,2 +1,2 @@
-html
-    body
+@import name from 'http://127.0.0.1:3334/tests/test2/imports/first.sdom'
+&name
