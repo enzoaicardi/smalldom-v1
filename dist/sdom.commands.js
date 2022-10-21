@@ -12,6 +12,7 @@ sdom.behavior('cli');
 
 // Commands
 yargs(hideBin(process.argv))
+
     .command(
 
         'compile [source] [output] [layout]',
@@ -41,50 +42,91 @@ yargs(hideBin(process.argv))
             let sourceURL = path.join(process.cwd(), argv.source);
             let outputURL = path.join(process.cwd(), argv.output);
 
-            if(argv.watch){
-
-                console.log('[watch] You are currently watching changes on file', sourceURL)
-
-                fs.watchFile(sourceURL, {interval: 100}, () => {
-                    console.log('[watch] rebuild...')
-                    sdomCompile(sourceURL, outputURL, argv.layout)
-                });
-
-            }
-            else{
-                sdomCompile(sourceURL, outputURL, argv.layout)
-            }
+            sdomCompile(sourceURL, outputURL, argv)
 
         }
     )
+
+    .command(
+
+        'html [source] [folder] [layout]',
+
+        'Compile a source file ".sdom" into an output file ".html"',
+
+        (yargs) => {
+            yargs.positional('source', {
+                describe: 'The source file name',
+                type: 'string',
+                default: 'index'
+            }).positional('folder', {
+                describe: 'The output folder',
+                type: 'string',
+                default: './'
+            }).positional('layout', {
+                describe: 'HTML layout on output [minified|preformatted]',
+                type: 'string',
+                default: 'minified'
+            })
+        },
+
+        (argv) => {
+            console.log('Compiling...');
+
+            let sourceURL = path.join(process.cwd(), argv.source + '.sdom');
+            let outputURL = path.join(process.cwd(), argv.folder, argv.source + '.html');
+
+            sdomCompile(sourceURL, outputURL, argv)
+        }
+    )
+
     .option('watch', {
         alias: 'w',
         description: 'Listen file changes for recompilation',
         type: 'boolean'
     })
+
     .help()
     .alias('help', 'h').argv
 
+    
 // functions
 
-function sdomCompile(sourceURL, outputURL, layout){
+function sdomCompile(sourceURL, outputURL, argv){
 
-    console.log('[source] <- fetch source code from', sourceURL);
+    if(argv.watch){
 
-    let sourceCode = fs.readFileSync(
-        sourceURL,
-        'utf8'
-    );
+        console.log('[watch] You are currently watching changes on file', sourceURL)
 
-    let outputCode = sdom.layout(layout).transpile(sourceCode);
+        fs.watchFile(sourceURL, {interval: 100}, () => {
+            console.log('[watch] rebuild...')
+            _compile()
+        });
 
-    console.log('[output] <- create output at', outputURL);
+    }
+    else{
+        _compile()
+    }
 
-    fs.writeFileSync(
-        outputURL,
-        outputCode
-    );
+    function _compile(){
 
-    console.log('[output] -> success !');
+        console.log('[source] <- fetch source code from', sourceURL);
+
+        let sourceCode = fs.readFileSync(
+            sourceURL,
+            'utf8'
+        );
+
+        let outputCode = sdom.layout(argv.layout).transpile(sourceCode);
+
+        console.log('[output] <- create output at', outputURL);
+
+        fs.writeFileSync(
+            outputURL,
+            outputCode
+        );
+
+        console.log('[output] -> success !');
+
+    }
 
 }

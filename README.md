@@ -40,6 +40,12 @@ Arguments :
 
 > If you specify a folder be sure it exists !
 
+More simple command for html files
+
+`sdom html [sourceName] [folder] [minified|preformatted] [--watch]`
+
+With this command the source name is used to create the output name.
+
 ### step n°3
 
 Open your HTML file and you will see...
