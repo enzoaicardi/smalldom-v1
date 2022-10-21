@@ -1,9 +1,10 @@
 {
-  "name": "sdom-lang",
+  "name": "sdom",
   "author": "Enzo Aicardi",
-  "displayName": "sdom-lang",
+  "publisher": "enzoaicardi",
+  "displayName": "sdom",
   "description": "Semantic Hightlight for .sdom and .smalldom files",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "icon": "icon.png",
   "repository": {},
   "engines": {
@@ -95,6 +96,7 @@
     ]
   },
   "scripts": {
+    "build-lib": "npx webpack --config webpack.config.lib.js",
     "build": "npx webpack --config webpack.config.lang.js",
     "vsix": "vsce package --out ./vsix/",
     "publish": "npm run build && npm run vsix"
