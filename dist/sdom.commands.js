@@ -96,9 +96,10 @@ async function sdomCompile(sourceURL, outputURL, argv){
     if(argv.watch){
 
         console.log('[watch] You are currently watching changes on file', sourceURL)
+        console.log('[watch] Use [Ctrl + C] to leave', sourceURL)
 
         fs.watchFile(sourceURL, {interval: 100}, () => {
-            console.log('[watch] rebuild...')
+            console.log('[watch] recompilation...')
             _compile()
         });
 
@@ -116,16 +117,20 @@ async function sdomCompile(sourceURL, outputURL, argv){
             'utf8'
         );
 
-        let outputCode = await sdom.layout(argv.layout).transpile(sourceCode);
+        sdom.layout(argv.layout).transpile(sourceCode).then(()=>{
+            
+            console.log('[output] <- create output at', outputURL);
 
-        console.log('[output] <- create output at', outputURL);
+            fs.writeFileSync(
+                outputURL,
+                outputCode
+            );
 
-        fs.writeFileSync(
-            outputURL,
-            outputCode
-        );
+            console.log('[success] -> changes saved');
 
-        console.log('[output] -> success !');
+        }).catch(()=>{
+            console.log('[error] an error as occured, please read the logs above and try again.');
+        })
 
     }
 
