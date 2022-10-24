@@ -29,12 +29,12 @@ html
 
 In a second time you just need to run the following command to compile your code.
 
-`sdom compile [source.sdom] [folder/output.html] [minified|preformatted] [--watch]`
+`sdom compile [source.sdom] [folder/output.html] [--layout] [--watch]`
 
 Arguments :
 - `[source.sdom]` the path to your source file (index.sdom by default)
 - `[output.html]` the path to your output file (dist/index.html by default)
-- `[minified]` the layout render of your html, you can custom it by using `[numberBreaks/numberSpaces]` notation (minified by default)
+- `[--layout]` the layout render of your html, you can custom it by using `[numberBreaks/numberSpaces]` notation (minified by default)
 - `[--watch]` the option to recompile everytime your .sdom file change
 - `[--help]` for help informations
 
@@ -42,7 +42,7 @@ Arguments :
 
 More simple command for html files
 
-`sdom html [sourceName] [folder] [minified|preformatted] [--watch]`
+`sdom html [sourceName] [folder] [--layout] [--watch]`
 
 With this command the source name is used to create the output name.
 

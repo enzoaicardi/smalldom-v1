@@ -1,7 +1,12 @@
+$var = 10
 
 @export html {
     body
         section
 
     article
+    section
+    $var = 40
 }
+
+&html

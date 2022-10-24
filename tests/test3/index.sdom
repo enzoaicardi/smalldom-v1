@@ -1,2 +1,7 @@
 @import html from './import.sdom'
-&html + bbb + ccc
+
+$var = 30
+
+&html
+
+bbb+$var

@@ -1,10 +1,10 @@
 /**
  * IMPORTS
  */
-import { Exception } from '../../../lib/core/tools/Exception.js';
-import { Lexer } from '../../../lib/interpreter/lexing/Lexer.js'
-import { Containers } from '../../../lib/interpreter/grouping/Containers.js'
 import { Assignments } from '../../../lib/interpreter/grouping/associations/Assignments.js';
+import { Containers } from '../../../lib/interpreter/grouping/Containers.js'
+import { Storage } from '../../../lib/core/storage/Storage.js';
+import { Lexer } from '../../../lib/interpreter/lexing/Lexer.js'
 //
 
 /**
@@ -59,7 +59,7 @@ import { Assignments } from '../../../lib/interpreter/grouping/associations/Assi
 
     function _Parse(code, tokensBuilder){
 
-        Exception.mode = 'highlight';
+        Storage.behavior = 'highlight';
 
         function _Map(tokenList){
             tokenList.forEach((token)=>{ _addToken(token, tokensBuilder); });
