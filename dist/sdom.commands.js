@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import { sdom } from '../lib/sdom.js'
-import fs, { readdirSync } from 'fs'
+import fs from 'fs'
 import path from 'path'
 
 // const fs = require('fs')
@@ -9,6 +9,7 @@ import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
 
 sdom.behavior('cli');
+sdom.persistence(false);
 
 /**
  * Commandes yargs
@@ -93,7 +94,7 @@ sdom.behavior('cli');
 
             // Sinon on essaye d'ouvrir le dossier pour en extraire tout les noms de fichier
             try {
-                srcList = readdirSync(dir)
+                srcList = fs.readdirSync(dir)
             } catch (err) {
                 console.log('[ERROR] Cannot read directory : "', dir, '"')
                 console.log(err)
@@ -131,6 +132,7 @@ sdom.behavior('cli');
     async function __watch(file, argv){
 
         console.log('[WATCH] You are currently watching at file "', file, '"')
+        console.log('[WATCH] Press CTRL+S to apply changes')
 
         fs.watchFile(file, {interval: 100}, () => {
             console.log('[WATCH] Recompile file "', file, '"')
@@ -160,8 +162,15 @@ sdom.behavior('cli');
             return
         }
 
-        // On créer le dossier de manière récursive s'il n'existe pas
-        fs.mkdirSync(dir, {recursive: true})
+        try{
+            // On créer le dossier de manière récursive s'il n'existe pas
+            fs.mkdirSync(dir, {recursive: true})
+
+        } catch (err) {
+            console.log('[ERROR] Cannot create the following path : "', dir, '"')
+            console.log(err)
+            return
+        }
 
         // Si la sortie est un dossier
         if(out === dir){
@@ -172,10 +181,11 @@ sdom.behavior('cli');
             out = path.join(out, name)
         }
 
+        console.log('[COMPILATION] Create output at "', out, '"...');
+        
         // On lance la compilation du code source
+
         sdom.layout(argv.layout).transpile(code).then((xml)=>{
-            
-            console.log('[COMPILATION] Create output at "', out, '"...');
 
             try {
 
@@ -185,7 +195,7 @@ sdom.behavior('cli');
                     xml
                 );
 
-            } catch(err) {
+            } catch (err) {
                 console.log('[ERROR] Cannot create file : "', out, '"')
                 throw err
             }
@@ -193,17 +203,11 @@ sdom.behavior('cli');
             console.log('[COMPILATION] Done !');
 
         }).catch(()=>{
-            console.log('[ERROR] an error has occured during the compilation process, please read the logs above and try again.');
+
+            console.log('[ERROR] An error has occured during the compilation process, please read the logs above and try again.');
+
         })
 
-    }
-
-    // Retourne le nom du fichier sans son extension
-    function fileName(path){
-        let name = path.replace(/\.[^\\\/]+$/, '')
-        name = name.split('/')
-        name.pop()
-        return name.join('/')
     }
 
 //

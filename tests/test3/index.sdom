@@ -1,7 +1,7 @@
 @import html from './import.sdom'
 
-$var = 30
+$var = 10
 
 &html
 
-bbb+$var
+a + $var
